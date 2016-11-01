@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get("/", ["as" => "question.index", "uses" => "QuestionController@index"]);
+Route::get("answer/{question_id}/{form_answer}", ["as" => "question.answer", "uses" => "QuestionController@answer"]);
