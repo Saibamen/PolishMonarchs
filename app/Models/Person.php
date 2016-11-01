@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Person extends Model {
 
-	protected $fillable = [
+    protected $fillable = [
         "name", "file"
     ];
+
+    public function answers() {
+        return $this->hasMany(Answer::class);
+    }
 
 }

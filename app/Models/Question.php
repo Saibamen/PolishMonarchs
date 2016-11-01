@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model {
 
-	protected $fillable = [
+    protected $fillable = [
         "name"
     ];
+
+    public function answers() {
+        return $this->hasMany(Answer::class);
+    }
 
 }
