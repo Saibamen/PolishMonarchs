@@ -11,7 +11,7 @@
     </div>
 @endif
 
-    <legend>Dodaj postać</legend>
+    <legend><strong>Dodaj postać</strong></legend>
 
     {{ Form::open(["route" => "person.post", "method" => "post", "class" => "form-horizontal"]) }}
     	<div class="form-group{{ $errors->has("name") ? " has-error" : "" }}">
