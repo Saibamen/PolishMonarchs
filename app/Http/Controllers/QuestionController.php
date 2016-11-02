@@ -10,7 +10,11 @@ use Illuminate\Http\Request;
 class QuestionController extends Controller {
 
     public function index() {
-        $question = Question::select("id", "name")->inRandomOrder()->first();
+        if(!session("answered_questions")) {
+            $question = Question::select("id", "name")->inRandomOrder()->first();
+        } else {
+            $question = Question::select("id", "name")->whereNotIn("id", session("answered_questions"))->inRandomOrder()->first();
+        }
 
         return view("question", ["question" => $question]);
     }
