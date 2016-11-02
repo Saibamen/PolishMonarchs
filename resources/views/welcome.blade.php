@@ -85,7 +85,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Polish Monarchs
+                    <a href="{{ url("/") }}">Polish Monarchs</a>
                 </div>
 
                 @yield("content")
