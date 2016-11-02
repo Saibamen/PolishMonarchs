@@ -82,7 +82,7 @@ class QuestionController extends Controller {
     }
 
     public function result(Request $request, $id) {
-        $person = Person::select("name")->where("id", $id)->first();
+        $person = Person::select("name", "file")->where("id", $id)->first();
 
         $request->session()->forget("matched_people");
         $request->session()->forget("answered_questions");

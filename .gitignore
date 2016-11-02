@@ -105,7 +105,6 @@ fabric.properties
 
 ### Composer ###
 composer.phar
-*.jpg
 sh.exe.stackdump
 
 scheduler.bat
