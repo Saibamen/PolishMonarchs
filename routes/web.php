@@ -13,3 +13,4 @@
 
 Route::get("/", ["as" => "question.index", "uses" => "QuestionController@index"]);
 Route::get("answer/{question_id}/{form_answer}", ["as" => "question.answer", "uses" => "QuestionController@answer"]);
+Route::get("result/{id}", ["as" => "question.result", "uses" => "QuestionController@result"]);
