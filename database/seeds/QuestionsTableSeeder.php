@@ -19,7 +19,7 @@ class QuestionsTableSeeder extends Seeder {
             ["id" => 10, "name" => "Władał również innym krajem (poza Polską i Litwą)?"],
             ["id" => 11, "name" => "Dokładna data śmierci jest nieznana?"],
             ["id" => 12, "name" => "Był bezpośrednim potomkiem króla/królowej?"],
-            ["id" => 13, "name" => "Należał do dynsatii Wazów?"],
+            ["id" => 13, "name" => "Należał do dynastii Wazów?"],
             ["id" => 14, "name" => "Przejął koronę po bracie?"],
             ["id" => 15, "name" => "Urodził się w stolicy?"],
             ["id" => 16, "name" => "Na jego cześć powstała marka wódki i papierosów?"],
