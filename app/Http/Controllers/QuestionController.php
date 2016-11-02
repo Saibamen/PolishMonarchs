@@ -65,7 +65,6 @@ class QuestionController extends Controller {
             session(["matched_people" => $session_people]);
         }
 
-        // TODO: dodawaj pytania
         if(!session("answered_questions")) {
             session(["answered_questions" => [$question_id]]);
         }
@@ -75,8 +74,6 @@ class QuestionController extends Controller {
             $new_answered_questions[] += $question_id;
             session(["answered_questions" => $new_answered_questions]);
         }
-
-        dump("session_matched_people", session("matched_people"));
 
         if(count(session("matched_people")) === 1) {
             return redirect()->route("question.result", session("matched_people")[0]);
