@@ -20,13 +20,13 @@ class QuestionController extends Controller {
 
         if(!session("matched_people")) {
             $people = Person::select("id")->get();
+            $persons = [];
 
             foreach($people as $person) {
-                $matched_people[] += $person->id;
+                $persons[] += $person->id;
             }
 
-            session(["matched_people" => $matched_people]);
-            echo "BRAK MATCHED PEOPLE";
+            session(["matched_people" => $persons]);
         }
 
         $session_people = session("matched_people");
@@ -50,11 +50,10 @@ class QuestionController extends Controller {
 
             foreach($session_people as $session) {
                 if(in_array($session, $matched_people)) {
-                    // DEBUG
-                    echo "Usuwam osoby z odpowiedziami TAK";
-
                     if(($key = array_search($session, $session_people)) !== false) {
                         unset($session_people[$key]);
+                        // Reindex
+                        $session_people = array_values($session_people);
                     }
                 }
             }
@@ -65,21 +64,16 @@ class QuestionController extends Controller {
         // TODO: dodawaj pytania
         if(!session("answered_questions")) {
             session(["answered_questions" => [$question_id]]);
-            echo "pierwsze pytanie";
         }
 
         // TODO: mogo być problemy na hostingu "0", 0
         if(!in_array($question_id, $new_answered_questions = session("answered_questions"))) {
-            echo "unikat";
-            dump($new_answered_questions);
             $new_answered_questions[] += $question_id;
-            dump($new_answered_questions);
             session(["answered_questions" => $new_answered_questions]);
         }
 
-        //dump("matched_people", session("matched_people"), "answered_questions", session("answered_questions"));
+        dump("session_matched_people", session("matched_people"));
 
-        // TODO ??
         if(count(session("matched_people")) === 1) {
             return redirect()->route("question.result", session("matched_people")[0]);
         } else {
@@ -87,8 +81,11 @@ class QuestionController extends Controller {
         }
     }
 
-    public function result($id) {
+    public function result(Request $request, $id) {
         $person = Person::select("name")->where("id", $id)->first();
+
+        $request->session()->forget("matched_people");
+        $request->session()->forget("answered_questions");
 
         return view("result", ["person" => $person]);
     }
