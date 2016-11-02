@@ -75,6 +75,10 @@ class QuestionController extends Controller {
             session(["answered_questions" => $new_answered_questions]);
         }
 
+        // Reindex jeszcze raz
+        $session_people = array_values(session("matched_people"));
+        session(["matched_people" => $session_people]);
+
         if(count(session("matched_people")) === 1) {
             return redirect()->route("question.result", session("matched_people")[0]);
         } else {
