@@ -10,7 +10,7 @@ class CreatePeopleTable extends Migration {
         Schema::create("people", function (Blueprint $table) {
             $table->increments("id");
             $table->string("name");
-            $table->string("file");
+            $table->string("file")->nullable();
             $table->timestamps();
         });
     }
