@@ -12,11 +12,17 @@ class QuestionController extends Controller {
     public function index() {
         if(!session("answered_questions")) {
             $question = Question::select("id", "name")->inRandomOrder()->first();
+            $first_message = true;
         } else {
             $question = Question::select("id", "name")->whereNotIn("id", session("answered_questions"))->inRandomOrder()->first();
+            $first_message = false;
         }
 
-        return view("question", ["question" => $question]);
+        if(!$question || (!$first_message && !session("matched_people"))) {
+            return redirect()->route("person.add");
+        }
+
+        return view("question", ["question" => $question, "first_message" => $first_message]);
     }
 
     public function answer($question_id, $form_answer) {
@@ -69,7 +75,6 @@ class QuestionController extends Controller {
             session(["answered_questions" => [$question_id]]);
         }
 
-        // TODO: mogo być problemy na hostingu "0", 0
         if(!in_array($question_id, $new_answered_questions = session("answered_questions"))) {
             $new_answered_questions[] += $question_id;
             session(["answered_questions" => $new_answered_questions]);

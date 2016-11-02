@@ -1,7 +1,7 @@
 @extends("welcome")
 
 @section("content")
-    Odpowiedź:<br><br>
+    <legend><strong>Odpowiedź:</strong></legend>
 
     @if($person->file)
     	<img src="{{ url("/img/people/" . $person->file) }}" height="300px">
@@ -13,5 +13,5 @@
 
     <strong>{{ $person->name}}</strong><br><br>
 
-    <a href="{{ route("question.index") }}">Spróbuj jeszcze raz</a>
+    <div class="again"><a href="{{ route("question.index") }}"><strong>Spróbuj jeszcze raz</strong></a></div>
 @endsection

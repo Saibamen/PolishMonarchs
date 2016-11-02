@@ -63,6 +63,11 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            div.again a:link { color: #17295b; }
+            div.again a:visited { color: #17295b; }
+            div.again a:hover { color: #17295b; }
+            div.again a:active { color: #17295b; }
         </style>
     </head>
     <body>
