@@ -14,11 +14,17 @@ class QuestionController extends Controller {
             $question = Question::select("id", "name")->inRandomOrder()->first();
             $first_message = true;
         } else {
-            $question = Question::select("id", "name")->whereNotIn("id", session("answered_questions"))->inRandomOrder()->first();
+            if(!session("matched_people")) {
+                return redirect()->route("person.add");
+            }
+
+            $question = Question::select("id", "name")->whereNotIn("id", session("answered_questions"))->with("answers")->whereHas("answers", function($query) {
+                $query->whereIn("person_id", session("matched_people"));
+            })->inRandomOrder()->first();
             $first_message = false;
         }
 
-        if(!$question || (!$first_message && !session("matched_people"))) {
+        if(!$question) {
             return redirect()->route("person.add");
         }
 
