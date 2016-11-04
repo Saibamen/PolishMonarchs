@@ -11,16 +11,22 @@ class QuestionController extends Controller {
 
     public function index() {
         if(!session("answered_questions")) {
-            $question = Question::select("id", "name")->inRandomOrder()->first();
+            $question = Question::select("id", "name")
+                ->whereHas("answers", function($query) {
+                    $query->havingRaw("COUNT(*) > 1");
+                })->inRandomOrder()->first();
+
             $first_message = true;
         } else {
             if(!session("matched_people")) {
                 return redirect()->route("person.add");
             }
 
-            $question = Question::select("id", "name")->whereNotIn("id", session("answered_questions"))->with("answers")->whereHas("answers", function($query) {
-                $query->whereIn("person_id", session("matched_people"));
-            })->inRandomOrder()->first();
+            $question = Question::select("id", "name")->whereNotIn("id", session("answered_questions"))
+                ->whereHas("answers", function($query) {
+                    $query->whereIn("person_id", session("matched_people"));
+                })->inRandomOrder()->first();
+
             $first_message = false;
         }
 
