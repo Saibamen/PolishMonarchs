@@ -46,6 +46,8 @@
             <button type="submit" class="btn btn-primary">Wyślij</button>
         </div>
 
-    {{ Form::close() }}
+    {{ Form::close() }}<br>
+
+    <div class="again"><a href="{{ route("question.index") }}"><strong>Strona Główna</strong></a></div>
 
 @endsection
