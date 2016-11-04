@@ -24,6 +24,7 @@ class QuestionController extends Controller {
 
             $question = Question::select("id", "name")->whereNotIn("id", session("answered_questions"))
                 ->whereHas("answers", function($query) {
+                    $query->select("id");
                     $query->whereIn("person_id", session("matched_people"));
                 })->inRandomOrder()->first();
 
