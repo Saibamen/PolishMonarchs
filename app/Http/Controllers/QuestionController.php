@@ -24,11 +24,17 @@ class QuestionController extends Controller {
 
             $max_between = count(session("matched_people")) - 1;
 
+            if(count(session("answered_questions")) === 1) {
+                $min_between = 2;
+            } else {
+                $min_between = 1;
+            }
+
             $question = Question::select("id", "name")->whereNotIn("id", session("answered_questions"))
-                ->whereHas("answers", function($query) use ($max_between) {
+                ->whereHas("answers", function($query) use ($min_between, $max_between) {
                     $query->whereIn("person_id", session("matched_people"));
                     $query->groupBy("question_id");
-                    $query->havingRaw("count(DISTINCT person_id) BETWEEN 1 AND ". $max_between);
+                    $query->havingRaw("count(DISTINCT person_id) BETWEEN " . $min_between . " AND " . $max_between);
                 })->inRandomOrder()->first();
 
             $first_message = false;
