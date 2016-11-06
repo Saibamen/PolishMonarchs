@@ -22,10 +22,13 @@ class QuestionController extends Controller {
                 return redirect()->route("person.add");
             }
 
+            $max_between = count(session("matched_people")) - 1;
+
             $question = Question::select("id", "name")->whereNotIn("id", session("answered_questions"))
-                ->whereHas("answers", function($query) {
-                    $query->select("id");
+                ->whereHas("answers", function($query) use ($max_between) {
                     $query->whereIn("person_id", session("matched_people"));
+                    $query->groupBy("question_id");
+                    $query->havingRaw("count(DISTINCT person_id) BETWEEN 1 AND ". $max_between);
                 })->inRandomOrder()->first();
 
             $first_message = false;
